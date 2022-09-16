@@ -1,4 +1,4 @@
-import './button.styles.scss'
+import "./button.styles.scss";
 
 const BUTTON_TYPES = {
   google: "google-sign-in",
@@ -6,11 +6,13 @@ const BUTTON_TYPES = {
 };
 
 const Button = (props) => {
-  console.log(props);
   const { type, children, ...otherProps } = props;
 
   return (
-    <button className={`${BUTTON_TYPES[type]} button-container`} {...otherProps}>
+    <button
+      className={`${BUTTON_TYPES[type]} button-container`}
+      {...otherProps}
+    >
       {children}
     </button>
   );

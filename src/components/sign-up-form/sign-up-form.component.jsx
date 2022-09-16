@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState }  from "react";
 import { createUserDocumentOnEmailAndPasswordSignUp } from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -14,27 +14,27 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields)
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormFields({...formFields, [name]: value})
+    setFormFields({ ...formFields, [name]: value });
   };
 
   const onSubmit = async (event) => {
-    if(password !== confirmPassword){
-        return;
+    if (password !== confirmPassword) {
+      return;
     }
     event.preventDefault();
-    console.log(event);
-    try{
-        const userDocRef = await createUserDocumentOnEmailAndPasswordSignUp(displayName, email, password);
-        console.log(userDocRef)
+    try {
+      const user = await createUserDocumentOnEmailAndPasswordSignUp(
+        displayName,
+        email,
+        password
+      );
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-        console.error(error)
-    }
-    setFormFields(defaultFormFields)
-}
+    setFormFields(defaultFormFields);
+  };
 
   return (
     <section>
@@ -77,12 +77,13 @@ const SignUpForm = () => {
           value={confirmPassword}
         />
 
-        {confirmPassword !== password &&
-            <p id="password-mismatch">
-                ! passwords dont match
-            </p>}
+        {confirmPassword !== password && (
+          <p id="password-mismatch">! passwords dont match</p>
+        )}
 
-        <Button type="submit" onClick={onSubmit}>Sign Up</Button>
+        <Button type="submit" onClick={onSubmit}>
+          Sign Up
+        </Button>
       </form>
     </section>
   );
